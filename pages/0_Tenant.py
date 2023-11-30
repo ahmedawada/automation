@@ -1,4 +1,3 @@
-import tkinter
 import streamlit as st
 import json
 import requests
