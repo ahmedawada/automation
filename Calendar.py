@@ -1,7 +1,6 @@
 from datetime import date
 import streamlit as st
 import requests as re
-from st_aggrid import AgGrid, GridOptionsBuilder
 import pandas as pd
 import json
 from Upload import upload
@@ -9,21 +8,7 @@ from legacy_session_state import legacy_session_state
 
 legacy_session_state()
 
-#https://okapi-g42.medad.com/configurations/entries
-# {
-#   "module": "CONFIGURATION_COLUMNS",
-#   "configName": "DISPLAY_COLUMNS",
-#   "value": "{\"cover\":true,\"publishers\":true,\"title\":true,\"indexTitle\":false,\"callNumber\":{\"classificationIdentifierType\":\"ce176ace-a53e-4b4d-aa89-725ed7b2edac\"},\"contributors\":false,\"publicationDate\":true,\"relation\":false}",
-# }
 
-# def time_interval(hour, minute, interval):
-#     return [
-#         f"{str(i).zfill(2)}:{str(j).zfill(2)}"
-#         for i in range(hour)
-#         for j in range(minute)
-#         if j % interval == 0
-#     ]
-#
 headers = {"x-okapi-tenant": f"{st.session_state.tenant}", "x-okapi-token": f"{st.session_state.token}"}
 services_endpoint = "/service-points"
 calendar_endpoint = "/calendar/periods"

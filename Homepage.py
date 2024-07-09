@@ -8,6 +8,23 @@ st.set_page_config(
     page_title="KAM TEAM", layout="wide", initial_sidebar_state="expanded"
 )
 
+# Inject CSS styles
+st.markdown(
+    """
+    <style>
+    .button-container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+    .button-container div {
+        flex: 1;
+        margin: 0 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 if 'new_tenant' not in st.session_state:
     st.session_state['new_tenant'] = False
@@ -26,41 +43,47 @@ authenticator = stauth.Authenticate(
     config['cookie']['name'],
     config['cookie']['key'],
     config['cookie']['expiry_days'],
-
 )
 name, authentication_status, username = authenticator.login('Login', 'main')
 
 if authentication_status:
-
     authenticator.logout('Logout', 'sidebar')
 
+    # Wrap buttons in a container
+    st.markdown('<div class="button-container">', unsafe_allow_html=True)
 
+    # Individual buttons in separate divs for styling
+    st.markdown('<div>', unsafe_allow_html=True)
     New_Tenant = st.button("Configure New Tenant")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div>', unsafe_allow_html=True)
+    Clone_Tenant = st.button("Clone Existing Tenant")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div>', unsafe_allow_html=True)
+    backup = st.button("Backup Tenant")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
     if New_Tenant:
         st.session_state.clone = False
         st.session_state.new_tenant = True
         st.session_state['backup_ten'] = False
         switch_page('Tenant')
 
-
-
-    Clone_Tenant = st.button("Clone Existing Tenant")
     if Clone_Tenant:
         st.session_state.clone = True
         st.session_state.new_tenant = False
         st.session_state['backup_ten'] = False
-
         switch_page("Tenant")
 
-
-    backup = st.button("Backup Tenant")
     if backup:
         st.session_state.backup_ten = True
         st.session_state.clone = False
         st.session_state.new_tenant = False
         switch_page('Tenant')
-
-
 
 elif authentication_status is False:
     st.error('Username/password is incorrect')
