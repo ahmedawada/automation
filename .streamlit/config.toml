@@ -8,4 +8,5 @@ font="sans serif"
 
 [server]
 
-maxUploadSize = 500
+maxUploadSize = 800
+enableXsrfProtection=false
