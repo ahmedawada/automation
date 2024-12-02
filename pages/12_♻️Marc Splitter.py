@@ -4,6 +4,9 @@ from pymarc import MARCReader
 from io import BytesIO, StringIO
 from legacy_session_state import legacy_session_state
 
+if 'allow_tenant' not in st.session_state:
+    st.session_state['allow_tenant'] = False
+
 def process_marc_file(uploaded_file, marc_tag):
     sequence = 1000  # Starting sequence
 
@@ -60,8 +63,6 @@ def process_marc_file(uploaded_file, marc_tag):
     return output.getvalue()
 
 def main():
-    st.title("MARC Record Splitter")
-
     uploaded_file = st.file_uploader("Choose a MARC file", type=['mrc'])
     marc_tag = st.text_input("Enter the MARC tag number to process", value='945')
 
@@ -76,4 +77,9 @@ def main():
         )
 
 if __name__ == "__main__":
-    main()
+    st.title("MARC Record Splitter")
+    if st.session_state.allow_tenant:
+        main()
+    else:
+        st.warning("Please Connect to Tenant First.")
+

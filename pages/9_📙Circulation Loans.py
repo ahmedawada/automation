@@ -8,12 +8,18 @@ from streamlit_extras.word_importances import format_word_importances
 from legacy_session_state import legacy_session_state
 
 legacy_session_state()
-
-# Set headers for API requests
-headers = {
-    "x-okapi-tenant": f"{st.session_state.tenant}",
-    "x-okapi-token": f"{st.session_state.token}"
-}
+if st.session_state.allow_tenant:
+    # Set headers for API requests
+    headers = {
+        "x-okapi-tenant": f"{st.session_state.tenant}",
+        "x-okapi-token": f"{st.session_state.token}"
+    }
+    # Define the API endpoints
+    base_url = st.session_state.okapi
+    check_out_endpoint = '/circulation/check-out-by-barcode'
+    item_endpoint = '/item-storage/items?query="barcode"=="{}"'
+    user_endpoint = '/users?query="username"=="{}"'
+    loans_endpoint = '/circulation/loans'
 
 # Define the predefined column names
 predefined_columns = [
@@ -24,12 +30,7 @@ predefined_columns = [
     "SERVICE_POINT_ID"  # Add this to allow mapping of service point ID
 ]
 
-# Define the API endpoints
-base_url = st.session_state.okapi
-check_out_endpoint = '/circulation/check-out-by-barcode'
-item_endpoint = '/item-storage/items?query="barcode"=="{}"'
-user_endpoint = '/users?query="username"=="{}"'
-loans_endpoint = '/circulation/loans'
+
 
 
 
@@ -193,4 +194,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if st.session_state.allow_tenant:
+        main()
+    else:
+        st.warning("Please Connect to Tenant First.")

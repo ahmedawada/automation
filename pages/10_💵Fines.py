@@ -9,24 +9,19 @@ from legacy_session_state import legacy_session_state
 
 legacy_session_state()
 
+if 'allow_tenant' not in st.session_state:
+    st.session_state['allow_tenant'] = False
+
 # Define API endpoint and headers
 api_url = "https://okapi.medad.com/accounts"
-headers = {
-    "X-Okapi-Tenant": st.session_state.tenant,
-    "x-okapi-token": st.session_state.token,
-    "Content-Type": "application/json"
-}
+if st.session_state.allow_tenant:
+    headers = {
+        "X-Okapi-Tenant": st.session_state.tenant,
+        "x-okapi-token": st.session_state.token,
+        "Content-Type": "application/json"
+    }
 
 
-st.markdown("""**This App is used to load bills to Medad ILS**
-
-The Excel file should contain the following columns:
-- **Amount**
-- **FeeFineType** (This should be a name as added in Medad)
-- **User UUID**
-- **Fine UUID**
-- **Owner UUID**
-""",unsafe_allow_html=True)
 
 def post_fine(data):
     response = requests.post(api_url, data=json.dumps(data), headers=headers)
@@ -34,7 +29,7 @@ def post_fine(data):
 
 
 def main():
-    st.title("Fines Import")
+
 
     # File uploader
     uploaded_file = st.file_uploader("Upload your Excel file", type=["xlsx"])
@@ -138,4 +133,18 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    st.title("Fines Import")
+
+    st.markdown("""**This App is used to load bills to Medad ILS**
+
+    The Excel file should contain the following columns:
+    - Amount
+    - FeeFineType (This should be a name as added in Medad)
+    - User UUID
+    - Fine UUID
+    - Owner UUID
+    """, unsafe_allow_html=True)
+    if st.session_state.allow_tenant:
+        main()
+    else:
+        st.warning("Please Connect to Tenant First.")

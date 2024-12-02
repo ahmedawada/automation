@@ -5,13 +5,19 @@ import json
 # Use legacy_session_state to ensure compatibility
 from legacy_session_state import legacy_session_state
 
+if 'allow_tenant' not in st.session_state:
+    st.session_state['allow_tenant'] = False
+
 legacy_session_state()
 
 # Set headers for API requests
-headers = {
-    "x-okapi-tenant": f"{st.session_state.tenant}",
-    "x-okapi-token": f"{st.session_state.token}"
-}
+if st.session_state.allow_tenant:
+    headers = {
+        "x-okapi-tenant": f"{st.session_state.tenant}",
+        "x-okapi-token": f"{st.session_state.token}"
+    }
+    # Define the API endpoint
+    users_endpoint = f"{st.session_state.okapi}/users"  # Adjust the base URL if needed
 
 st.markdown("""**This App is used to load users to Medad ILS.**
 
@@ -62,8 +68,7 @@ predefined_columns = [
     "scopes"
 ]
 
-# Define the API endpoint
-users_endpoint = f"{st.session_state.okapi}/users"  # Adjust the base URL if needed
+
 
 def empty_permissions(user_id):
     perm_data = {
@@ -298,4 +303,7 @@ def main():
             st.download_button(label="Download Failed Users CSV", data=failed_csv, file_name="failed_users.csv", mime='text/csv')
 
 if __name__ == "__main__":
-    main()
+    if st.session_state.allow_tenant:
+        main()
+    else:
+        st.warning("Please Connect to Tenant First.")

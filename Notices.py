@@ -216,7 +216,7 @@ def send_notice():
     respnotice = requests.get(f"{st.session_state.okapi}/templates?limit=1000", headers=headers)
     data = respnotice.json()
     templates = data['templates']
-    # st.write(respnotice.content)
+    st.write(respnotice.content)
 
     for x in range(0, len(templates)):
         for i in template_names:
@@ -230,6 +230,6 @@ def send_notice():
 
     body = circ_template
     for i in body:
-        requests.post(url_template_post, data=json.dumps(i), headers=headers)
+        temp_res = requests.post(url_template_post, data=json.dumps(i), headers=headers)
 
 

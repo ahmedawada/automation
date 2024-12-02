@@ -8,10 +8,10 @@ from legacy_session_state import legacy_session_state
 
 legacy_session_state()
 
-
-headers = {"x-okapi-tenant": f"{st.session_state.tenant}", "x-okapi-token": f"{st.session_state.token}"}
-services_endpoint = "/service-points"
-calendar_endpoint = "/calendar/periods"
+if st.session_state.allow_tenant:
+    headers = {"x-okapi-tenant": f"{st.session_state.tenant}", "x-okapi-token": f"{st.session_state.token}"}
+    services_endpoint = "/service-points"
+    calendar_endpoint = "/calendar/periods"
 def calendar():
     # if 'allow_calendar' is True:
     File = upload('Calendar')

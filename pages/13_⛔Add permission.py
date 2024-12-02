@@ -5,7 +5,8 @@ from legacy_session_state import legacy_session_state
 
 legacy_session_state()
 
-
+if 'allow_tenant' not in st.session_state:
+    st.session_state['allow_tenant'] = False
 def get_all(endpoint, key, query, okapi_url, okapi_headers):
     url = f"{okapi_url}{endpoint}{query}"
     response = requests.get(url, headers=okapi_headers)
@@ -60,7 +61,6 @@ def add_permission_to_user(okapi_url, tenant_id, token, username, permission_nam
 
 # Streamlit UI
 def main():
-    st.title("Add Permission to User")
 
     okapi_url = st.session_state.okapi
     tenant_id = st.session_state.tenant
@@ -74,4 +74,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    st.title("Add Permission to User")
+    if st.session_state.allow_tenant:
+        main()
+    else:
+        st.warning("Please Connect to Tenant First.")
+

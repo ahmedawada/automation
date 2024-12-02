@@ -54,7 +54,7 @@ if authentication_status:
 
     # Individual buttons in separate divs for styling
     st.markdown('<div>', unsafe_allow_html=True)
-    New_Tenant = st.button("Configure New Tenant")
+    New_Tenant = st.button("Login to Tenant")
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('<div>', unsafe_allow_html=True)
@@ -71,19 +71,19 @@ if authentication_status:
         st.session_state.clone = False
         st.session_state.new_tenant = True
         st.session_state['backup_ten'] = False
-        switch_page('Tenant')
+        switch_page('tenant')
 
     if Clone_Tenant:
         st.session_state.clone = True
         st.session_state.new_tenant = False
         st.session_state['backup_ten'] = False
-        switch_page("Tenant")
+        switch_page('tenant')
 
     if backup:
         st.session_state.backup_ten = True
         st.session_state.clone = False
         st.session_state.new_tenant = False
-        switch_page('Tenant')
+        switch_page('tenant')
 
 elif authentication_status is False:
     st.error('Username/password is incorrect')
