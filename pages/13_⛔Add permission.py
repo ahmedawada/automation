@@ -61,7 +61,6 @@ def add_permission_to_user(okapi_url, tenant_id, token, username, permission_nam
 
 # Streamlit UI
 def main():
-
     okapi_url = st.session_state.okapi
     tenant_id = st.session_state.tenant
     token = st.session_state.token

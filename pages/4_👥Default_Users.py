@@ -105,10 +105,6 @@ def create_user():
     # Get id of API_User
     permission_sip_res = requests.get(permissions_url3, headers=headers).json()
 
-    # Get service point ID for portal_integration user
-    if online_service_point['servicepoints']:
-        portal_point_id = online_service_point['servicepoints'][0]['id']
-
     if permission_sip_res['permissions']:
         SIPuser_id = permission_sip_res['permissions'][0]["id"]
 
@@ -185,6 +181,17 @@ def create_user():
                 # Add permissions
                 requests.post(permission_link, headers=headers, data=json.dumps(perm_data))
 
+                # Add preferred service point
+                # Get service point ID for portal_integration user
+                if online_service_point['servicepoints']:
+                    portal_point_id = online_service_point['servicepoints'][0]['id']
+                    preferred_sp_data = {
+                        "userId": user_id,
+                        "servicePointsIds": [portal_point_id],
+                        "defaultServicePointId": portal_point_id
+                    }
+                    post_service_point = requests.post(f'{st.session_state.okapi}/service-points-users', headers=headers,
+                                                       data=json.dumps(preferred_sp_data))
                 # Add password to user
                 pwdd = requests.post(password_url, headers=headers, data=json.dumps(password_data))
                 st.write(pwdd.content)
