@@ -552,8 +552,8 @@ def post_overdue_fines_policy():
     }
 
     response = requests.post(url, headers=headers, json=data)
-    st.write(response)
-    st.write(response.status_code)
+    # st.write(response)
+    # st.write(response.status_code)
 
 def post_lost_item_fees_policy():
     url = f'{st.session_state.okapi}/lost-item-fees-policies?limit=1000&query=cql.allRecords%3D1'
