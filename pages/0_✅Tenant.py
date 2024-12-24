@@ -70,7 +70,7 @@ if st.session_state.new_tenant:
 
         options = st.selectbox(
             "Select Okapi URL:",
-            ("https://okapi-cls01.ils.medad.com","https://okapi-cls02.ils.medad.com","https://okapi.medad.com", "https://okapi-uae.ils.medad.com", "https://okapi.medadstg.com","https://okapi-uae-cls01.ils.medad.com","https://okapi-uae-cls02.ils.medad.com"),
+            ("https://api01-v1.ils.medad.com","https://okapi-cls01.ils.medad.com","https://okapi-cls02.ils.medad.com","https://okapi.medad.com", "https://okapi-uae.ils.medad.com", "https://okapi.medadstg.com","https://okapi-uae-cls01.ils.medad.com","https://okapi-uae-cls02.ils.medad.com"),
             key="okapi",
         )
 
